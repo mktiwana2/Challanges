@@ -2,15 +2,13 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using JellyfishClassLib;
 
-namespace JellyfishUnitTests
+namespace JellyFishUnitTest
 {
     [TestClass]
-    public class Jellyfish_Scent
+    public class Jellyfish_TrackTest
     {
         [TestMethod]
-       
-
-        public void Jellyfish_TrackJellyfish_ScentTest()
+        public void Jellyfish_TrackJellyfish_TrackTest()
         {
             Coordinates tankSize = new Coordinates();
             Coordinates initialPosition = new Coordinates();
@@ -37,5 +35,6 @@ namespace JellyfishUnitTests
             Assert.AreEqual("2 3 S", trackJellyFish2.GetJellyfishPosition());
 
         }
+
     }
 }

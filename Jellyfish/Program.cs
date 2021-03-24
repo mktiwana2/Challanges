@@ -1,5 +1,5 @@
 ﻿using System;
-using JellyfishLib;
+using JellyfishClassLib;
 
 namespace Jellyfish
 {
