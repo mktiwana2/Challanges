@@ -10,29 +10,31 @@ namespace JellyFishUnitTest
         [TestMethod]
         public void Jellyfish_TrackJellyfish_TrackTest()
         {
-            Coordinates tankSize = new Coordinates();
-            Coordinates initialPosition = new Coordinates();
+            int initialPositionX = 0;
+            int initialPositionY = 0;
             string instructionString = "";
             string direction = "";
+            FishTank fishTank = new FishTank();
+            IRemoteControl remote = new RemoteControl();
 
-            tankSize.X = 5;
-            tankSize.Y = 3;
-            initialPosition.X = 3;
-            initialPosition.Y = 2;
+            fishTank.SetTankSize(5, 3);
+            initialPositionX = 3;
+            initialPositionY = 2;
             instructionString = "FRRFLLFFRRFLL";
             direction = "N";
 
-            ITrackJellyfish trackJellyFish = TrackJellyfish.CreateJellyfish(initialPosition, tankSize, instructionString, direction);
-            string val = trackJellyFish.GetJellyfishPosition();
+            remote.SetJellyfishOrigin(initialPositionX, initialPositionY, direction);
+            string val = remote.GetJellyfishFinalPosition(fishTank, instructionString);
 
-            initialPosition.X = 0;
-            initialPosition.Y = 3;
+            initialPositionX = 0;
+            initialPositionY = 3;
             instructionString = "LLFFFLFLFL";
             direction = "W";
 
-            ITrackJellyfish trackJellyFish2 = TrackJellyfish.CreateJellyfish(initialPosition, tankSize, instructionString, direction);
 
-            Assert.AreEqual("2 3 S", trackJellyFish2.GetJellyfishPosition());
+            remote.SetJellyfishOrigin(initialPositionX, initialPositionY, direction);
+
+            Assert.AreEqual("2 3 S", remote.GetJellyfishFinalPosition(fishTank, instructionString));
 
         }
 

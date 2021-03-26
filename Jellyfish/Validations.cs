@@ -5,9 +5,9 @@ namespace Jellyfish
 {
     class Validations
     {
-        public bool MaxCoordinatesOK(Coordinates tankCoordinates)
+        public bool MaxCoordinatesOK(int X, int Y)
         {
-            if (tankCoordinates.X > 60 || tankCoordinates.Y > 60)
+            if (X > 60 || Y > 60)
             {
                 Console.WriteLine("Error-Invalid Coordinates...Try again.");
                 return false;

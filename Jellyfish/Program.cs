@@ -8,28 +8,27 @@ namespace Jellyfish
         static void Main(string[] args)
         {
 
-
-            Coordinates tankSize = new Coordinates();
-            Coordinates initialPosition = new Coordinates();
+            int initialPositionX = 0;
+            int initialPositionY = 0;
             string instructionString = "";
             string direction = "";
             Validations validate = new Validations();
+            IRemoteControl remote = new RemoteControl();
+            FishTank fishTank = new FishTank();
 
         starting:
             Console.WriteLine("Please Enter the Upper-Right Corner Coordinates of Tank.");
             string inputTankSize = Console.ReadLine();
             try
             {
-                tankSize.X = Convert.ToInt32(inputTankSize.Substring(0, inputTankSize.IndexOf(" ")));
-                tankSize.Y = Convert.ToInt32(inputTankSize.Substring(inputTankSize.IndexOf(" ") + 1));
-            }
+                fishTank.SetTankSize( Convert.ToInt32(inputTankSize.Substring(0, inputTankSize.IndexOf(" "))),Convert.ToInt32(inputTankSize.Substring(inputTankSize.IndexOf(" ") + 1)));            }
             catch (Exception e)
             {
                 Console.WriteLine("Error-Wrong input Format.Try again.\n");
                 goto starting;
             }
 
-            if (!validate.MaxCoordinatesOK(tankSize)) goto starting;
+            if (!validate.MaxCoordinatesOK(fishTank.Width,fishTank.Height)) goto starting;
 
 
 
@@ -40,8 +39,8 @@ namespace Jellyfish
             try
             {
                 string[] subStr = inputLine.Split(" ");
-                initialPosition.X = Convert.ToInt32(subStr[0]);
-                initialPosition.Y = Convert.ToInt32(subStr[1]);
+                initialPositionX = Convert.ToInt32(subStr[0]);
+                initialPositionY = Convert.ToInt32(subStr[1]);
                 direction = subStr[2];
                 instructionString = subStr[3];
             }
@@ -53,16 +52,38 @@ namespace Jellyfish
 
 
             if (!validate.InstructionsOK(instructionString)) goto enterPosition;
-            if (!validate.MaxCoordinatesOK(initialPosition)) goto enterPosition;
+            if (!validate.MaxCoordinatesOK(initialPositionX, initialPositionY)) goto enterPosition;
 
 
-            ITrackJellyfish trackJellyFish = TrackJellyfish.CreateJellyfish(initialPosition, tankSize, instructionString, direction);
+            remote.SetJellyfishOrigin(initialPositionX, initialPositionY , direction);
 
-            Console.WriteLine(trackJellyFish.GetJellyfishPosition());
+            Console.WriteLine(remote.GetJellyfishFinalPosition(fishTank, instructionString));
 
             goto enterPosition;
         }
 
     }
+    public struct Coordinates
+    {
+
+        public int X   // property
+        {
+            get;
+            set;
+        }
+        public int Y   // property
+        {
+            get;
+            set;
+        }
+        public Boolean OutOfRange(int maxX, int maxY)
+        {
+            if (X < 0 || X > maxX || Y < 0 || Y > maxY) return true;
+            else return false;
+        }
+
+    }
+
+
 }
 
